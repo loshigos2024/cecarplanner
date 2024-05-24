@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intelligent Tutor</title>
+  <style>
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+  <script>
+    async function updateResource() {
+      const response = await fetch('/plan');
+      const data = await response.json();
+      document.getElementById('resource').innerText = data.resource;
+    }
+    
+    async function next() {
+      await fetch('/next', { method: 'POST' });
+      updateResource();
+    }
+    
+    async function previous() {
+      await fetch('/previous', { method: 'POST' });
+      updateResource();
+    }
+    
+    window.onload = updateResource;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Recurso Actual</h1>
+    <div id="resource">Cargando...</div>
+    <div>
+      <button onclick="previous()">Anterior</button>
+      <button onclick="next()">Siguiente</button>
+    </div>
+  </div>
+</body>
+</html>
